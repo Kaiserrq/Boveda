@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.supabase.co wss://*.supabase.co; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Bóveda</title>
+  <meta name="description" content="Gestor de contraseñas personal con cifrado de extremo a extremo.">
+  <meta name="theme-color" content="#070810">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Bóveda">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== Pantalla de bloqueo / creación ===== -->
+  <main id="lock" class="lock" hidden>
+    <div class="lock-card">
+      <div class="logo"><img src="icons/icon.svg" alt="" width="56" height="56"></div>
+      <h1>Bóveda</h1>
+
+      <!-- Primera vez: crear contraseña maestra -->
+      <form id="form-setup" autocomplete="off" hidden>
+        <p class="muted center">Crea la contraseña maestra. Con ella se cifra todo en este dispositivo.</p>
+        <div class="field"><label for="setup-pw">Contraseña maestra</label>
+          <input class="input" id="setup-pw" type="password" minlength="10" autocomplete="new-password" required>
+          <div class="meter"><span id="setup-meter"></span></div><small id="setup-meter-label" class="muted"></small>
+        </div>
+        <div class="field"><label for="setup-pw2">Repite la contraseña</label>
+          <input class="input" id="setup-pw2" type="password" autocomplete="new-password" required></div>
+        <div class="warn">⚠️ <strong>Si la olvidas, NO hay forma de recuperar tus datos.</strong> Ni nosotros ni Supabase podemos descifrarlos. Anótala en un lugar seguro. Mínimo 10 caracteres.</div>
+        <label class="check"><input type="checkbox" id="setup-ack" required> Entiendo que no hay recuperación</label>
+        <p class="error" id="setup-err" role="alert"></p>
+        <button class="btn btn-primary btn-full" type="submit">Crear bóveda</button>
+        <button class="link" type="button" id="btn-have-cloud" hidden>Ya tengo una bóveda en la nube (otro dispositivo)</button>
+      </form>
+
+      <!-- Traer la bóveda de la nube en un dispositivo nuevo -->
+      <form id="form-cloud" autocomplete="on" hidden>
+        <p class="muted center">Inicia sesión con la cuenta de sincronización para traer tu bóveda cifrada.</p>
+        <div class="field"><label for="cloud-email">Correo</label><input class="input" id="cloud-email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="cloud-pw">Contraseña de la cuenta</label><input class="input" id="cloud-pw" type="password" autocomplete="current-password" required></div>
+        <p class="error" id="cloud-err" role="alert"></p>
+        <button class="btn btn-primary btn-full" type="submit">Traer mi bóveda</button>
+        <button class="link" type="button" id="btn-cloud-back">Volver</button>
+      </form>
+
+      <!-- Desbloquear -->
+      <form id="form-unlock" autocomplete="off" hidden>
+        <div class="field"><label for="unlock-pw">Contraseña maestra</label>
+          <input class="input" id="unlock-pw" type="password" autocomplete="off" required></div>
+        <p class="error" id="unlock-err" role="alert"></p>
+        <button class="btn btn-primary btn-full" type="submit" id="unlock-btn">Desbloquear</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ===== App ===== -->
+  <div id="app" class="app" hidden>
+    <aside class="sidebar">
+      <div class="brand"><img src="icons/icon.svg" alt="" width="30" height="30"><span>Bóveda</span></div>
+      <nav id="cat-nav" class="cat-nav" aria-label="Categorías"></nav>
+      <div class="side-actions">
+        <button class="btn btn-secondary btn-full" id="btn-settings" type="button">⚙️ Ajustes</button>
+        <button class="btn btn-secondary btn-full" id="btn-lock" type="button">🔒 Bloquear</button>
+      </div>
+    </aside>
+
+    <section class="main">
+      <header class="topbar">
+        <div class="search"><input class="input" id="search" type="search" placeholder="Buscar sitio, usuario o nota…" aria-label="Buscar" autocomplete="off"></div>
+        <button class="btn btn-primary" id="btn-add" type="button">＋ <span class="hide-sm">Nueva</span></button>
+        <button class="btn btn-secondary show-sm" id="btn-settings-m" type="button" aria-label="Ajustes">⚙️</button>
+        <button class="btn btn-secondary show-sm" id="btn-lock-m" type="button" aria-label="Bloquear">🔒</button>
+      </header>
+      <div id="sync-pill" class="sync-pill" hidden></div>
+      <div id="cat-chips" class="chips show-sm" aria-label="Categorías"></div>
+      <div id="list" class="list"></div>
+      <p id="empty" class="empty" hidden></p>
+    </section>
+  </div>
+
+  <!-- ===== Entrada ===== -->
+  <dialog id="dlg-entry">
+    <form id="form-entry" method="dialog" autocomplete="off">
+      <h2 id="entry-title">Nueva contraseña</h2>
+      <div class="grid2">
+        <div class="field"><label for="e-site">Sitio / app</label><input class="input" id="e-site" required maxlength="120"></div>
+        <div class="field"><label for="e-icon">Icono (emoji)</label><input class="input" id="e-icon" maxlength="4" placeholder="🔑"></div>
+      </div>
+      <div class="field"><label for="e-url">Dirección web</label><input class="input" id="e-url" type="text" inputmode="url" placeholder="https://" maxlength="300"></div>
+      <div class="grid2 eq">
+        <div class="field"><label for="e-user">Usuario / correo</label><input class="input" id="e-user" maxlength="200" autocomplete="off"></div>
+        <div class="field"><label for="e-cat">Categoría</label><select class="input" id="e-cat"></select></div>
+      </div>
+      <div class="field"><label for="e-pw">Contraseña</label>
+        <div class="row">
+          <input class="input mono" id="e-pw" type="password" autocomplete="new-password" maxlength="500">
+          <button class="btn btn-secondary" type="button" id="e-toggle" aria-label="Mostrar u ocultar">👁</button>
+          <button class="btn btn-secondary" type="button" id="e-gen-toggle" aria-label="Generador">🎲</button>
+        </div>
+        <div class="meter"><span id="e-meter"></span></div><small id="e-meter-label" class="muted"></small>
+      </div>
+      <div id="gen-panel" class="gen" hidden>
+        <div class="row"><label for="g-len" class="muted">Longitud: <b id="g-len-val">20</b></label>
+          <input type="range" id="g-len" min="8" max="64" value="20"></div>
+        <div class="row wrap">
+          <label class="check"><input type="checkbox" id="g-lower" checked> a-z</label>
+          <label class="check"><input type="checkbox" id="g-upper" checked> A-Z</label>
+          <label class="check"><input type="checkbox" id="g-digits" checked> 0-9</label>
+          <label class="check"><input type="checkbox" id="g-symbols" checked> !@#</label>
+        </div>
+        <div class="row"><code id="g-out" class="mono gen-out"></code>
+          <button class="btn btn-secondary" type="button" id="g-regen" aria-label="Generar otra">↻</button>
+          <button class="btn btn-primary" type="button" id="g-use">Usar</button></div>
+      </div>
+      <div class="field"><label for="e-notes">Notas</label><textarea class="input" id="e-notes" maxlength="2000"></textarea></div>
+      <p class="error" id="entry-err" role="alert"></p>
+      <div class="dlg-foot">
+        <button class="btn btn-danger" type="button" id="e-delete" hidden>Eliminar</button>
+        <span class="grow"></span>
+        <button class="btn btn-secondary" type="button" data-close>Cancelar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ===== Ajustes ===== -->
+  <dialog id="dlg-settings">
+    <div class="dlg-head"><h2>Ajustes</h2><button class="btn btn-secondary" type="button" data-close aria-label="Cerrar">✕</button></div>
+
+    <section class="panel">
+      <h3>☁️ Sincronización</h3>
+      <div id="sync-off" hidden><p class="muted">No está configurada. Completa <code>js/config.js</code> siguiendo <code>docs/SINCRONIZACION.md</code>. Mientras tanto la bóveda vive solo en este dispositivo.</p></div>
+      <div id="sync-out" hidden>
+        <p class="muted">Usa la <b>misma cuenta</b> en el celular y en el PC. Solo se sube la bóveda ya cifrada.</p>
+        <form id="form-account" class="stack" autocomplete="on">
+          <input class="input" id="acc-email" type="email" placeholder="Correo" autocomplete="username" required>
+          <input class="input" id="acc-pw" type="password" placeholder="Contraseña de la cuenta (no es la maestra)" autocomplete="current-password" required minlength="6">
+          <div class="row"><button class="btn btn-primary grow" type="submit" data-act="in">Iniciar sesión</button><button class="btn btn-secondary grow" type="button" id="acc-signup">Crear cuenta</button></div>
+        </form>
+      </div>
+      <div id="sync-in" hidden>
+        <p>Sesión: <b id="acc-user"></b></p>
+        <p class="muted" id="acc-status"></p>
+        <div class="row"><button class="btn btn-primary grow" type="button" id="acc-sync">Sincronizar ahora</button><button class="btn btn-secondary grow" type="button" id="acc-signout">Cerrar sesión</button></div>
+      </div>
+      <p class="error" id="acc-err" role="alert"></p>
+    </section>
+
+    <section class="panel">
+      <h3>🗂 Categorías</h3>
+      <div id="cat-list" class="stack"></div>
+      <form id="form-cat" class="row">
+        <input class="input" id="cat-icon" maxlength="4" placeholder="📁" aria-label="Icono de la categoría">
+        <input class="input grow" id="cat-name" maxlength="40" placeholder="Nueva categoría" aria-label="Nombre de la categoría" required>
+        <button class="btn btn-secondary" type="submit">Agregar</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h3>🔐 Seguridad</h3>
+      <label class="muted" for="set-autolock">Bloqueo automático por inactividad</label>
+      <select class="input" id="set-autolock">
+        <option value="1">1 minuto</option><option value="5">5 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option>
+      </select>
+      <button class="btn btn-secondary btn-full" type="button" id="btn-change-master">Cambiar contraseña maestra</button>
+      <form id="form-master" class="stack" hidden autocomplete="off">
+        <input class="input" id="m-old" type="password" placeholder="Contraseña maestra actual" autocomplete="off" required>
+        <input class="input" id="m-new" type="password" placeholder="Nueva contraseña (mín. 10)" autocomplete="new-password" minlength="10" required>
+        <div class="meter"><span id="m-meter"></span></div>
+        <input class="input" id="m-new2" type="password" placeholder="Repite la nueva contraseña" autocomplete="new-password" required>
+        <p class="error" id="m-err" role="alert"></p>
+        <button class="btn btn-primary" type="submit">Recifrar con nueva contraseña</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h3>💾 Respaldo</h3>
+      <p class="muted">El respaldo exportado va cifrado: solo se abre con tu contraseña maestra.</p>
+      <div class="row wrap">
+        <button class="btn btn-secondary grow" type="button" id="btn-export">Exportar respaldo cifrado</button>
+        <button class="btn btn-secondary grow" type="button" id="btn-import">Importar respaldo cifrado</button>
+        <button class="btn btn-secondary grow" type="button" id="btn-import-old">Importar de la versión vieja (JSON)</button>
+      </div>
+      <input type="file" id="file-import" accept=".json,application/json" hidden>
+      <p class="muted" id="import-msg" role="status"></p>
+    </section>
+  </dialog>
+
+  <!-- ===== Pedir contraseña maestra (bloque con otra clave) ===== -->
+  <dialog id="dlg-ask">
+    <form id="form-ask" method="dialog" autocomplete="off">
+      <h2>Contraseña maestra</h2>
+      <p class="muted" id="ask-msg"></p>
+      <input class="input" id="ask-pw" type="password" autocomplete="off" required>
+      <div class="dlg-foot"><span class="grow"></span>
+        <button class="btn btn-secondary" type="button" id="ask-cancel">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Continuar</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

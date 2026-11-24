@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+# Respaldos y exportaciones locales
+*.boveda.json
+passwords.json
+passwords.db
+.playwright-mcp/
