@@ -1,7 +1,7 @@
 // Service worker: guarda SOLO archivos estáticos de la app para que abra sin internet.
 // Nunca guarda respuestas de Supabase ni de ningún otro dominio.
 // Cambia CACHE_VERSION cada vez que publiques cambios para forzar la actualización.
-const CACHE_VERSION = 'boveda-v2';
+const CACHE_VERSION = 'boveda-v3';
 const ASSETS = [
   './',
   './index.html',

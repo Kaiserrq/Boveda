@@ -10,5 +10,5 @@
 // tu navegador, y las reglas RLS de supabase/schema.sql limitan cada fila a su dueño.
 // NUNCA pongas aquí la "service_role key" / "secret key".
 
-export const SUPABASE_URL = '';      // ej: 'https://abcdefghijk.supabase.co'
-export const SUPABASE_ANON_KEY = ''; // ej: 'eyJhbGciOi...' o 'sb_publishable_...'
+export const SUPABASE_URL = 'https://ttrwvbrbseevwhnauzex.supabase.co';      // ej: 'https://abcdefghijk.supabase.co'
+export const SUPABASE_ANON_KEY = 'sb_publishable_ePMXZnh4Khiq4JsO9_SAwA_IOh1gizp'; // ej: 'eyJhbGciOi...' o 'sb_publishable_...'
