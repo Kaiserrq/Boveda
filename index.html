@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Bóveda</title>
   <meta name="description" content="Gestor de contraseñas personal con cifrado de extremo a extremo.">
-  <meta name="theme-color" content="#070810">
+  <meta name="theme-color" content="#141A24">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -15,193 +15,279 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Bóveda">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-key" viewBox="0 0 24 24"><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c6.4 0 10 8 10 8a13.2 13.2 0 0 1-1.67 2.68M6.61 6.61A13.5 13.5 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.39-1.61M2 2l20 20M14.12 14.12a3 3 0 1 1-4.24-4.24"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+  <symbol id="i-cloud-off" viewBox="0 0 24 24"><path d="m2 2 20 20M5.78 5.78A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.31-.19M21.53 16.5A4.5 4.5 0 0 0 17.5 10h-1.79A7 7 0 0 0 10 5.07"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+  <symbol id="i-vault" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+</defs></svg>
 
-  <!-- ===== Pantalla de bloqueo / creación ===== -->
+  <!-- ===== Puerta: crear / desbloquear ===== -->
   <main id="lock" class="lock" hidden>
-    <div class="lock-card">
-      <div class="logo"><img src="icons/icon.svg" alt="" width="56" height="56"></div>
-      <h1>Bóveda</h1>
+    <div class="lock-wrap">
+      <div id="door" class="door" aria-hidden="true"></div>
+      <div class="lock-card">
+        <h1 class="lock-title">Bóveda</h1>
 
-      <!-- Primera vez: crear contraseña maestra -->
-      <form id="form-setup" autocomplete="off" hidden>
-        <p class="muted center">Crea la contraseña maestra. Con ella se cifra todo en este dispositivo.</p>
-        <div class="field"><label for="setup-pw">Contraseña maestra</label>
-          <input class="input" id="setup-pw" type="password" minlength="10" autocomplete="new-password" required>
-          <div class="meter"><span id="setup-meter"></span></div><small id="setup-meter-label" class="muted"></small>
-        </div>
-        <div class="field"><label for="setup-pw2">Repite la contraseña</label>
-          <input class="input" id="setup-pw2" type="password" autocomplete="new-password" required></div>
-        <div class="warn">⚠️ <strong>Si la olvidas, NO hay forma de recuperar tus datos.</strong> Ni nosotros ni Supabase podemos descifrarlos. Anótala en un lugar seguro. Mínimo 10 caracteres.</div>
-        <label class="check"><input type="checkbox" id="setup-ack" required> Entiendo que no hay recuperación</label>
-        <p class="error" id="setup-err" role="alert"></p>
-        <button class="btn btn-primary btn-full" type="submit">Crear bóveda</button>
-        <button class="link" type="button" id="btn-have-cloud" hidden>Ya tengo una bóveda en la nube (otro dispositivo)</button>
-      </form>
+        <form id="form-setup" autocomplete="off" hidden>
+          <p class="lock-sub">Crea tu contraseña maestra. Con ella se cifra todo en este dispositivo.</p>
+          <div class="field"><label for="setup-pw">Contraseña maestra</label>
+            <input class="input" id="setup-pw" type="password" minlength="10" autocomplete="new-password" required>
+            <div class="meter" id="setup-meter" data-s="0"><i></i><i></i><i></i><i></i></div><small id="setup-meter-label" class="hint"></small>
+          </div>
+          <div class="field"><label for="setup-pw2">Repite la contraseña</label>
+            <input class="input" id="setup-pw2" type="password" autocomplete="new-password" required></div>
+          <div class="note warn"><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><p><strong>Si la olvidas, no hay forma de recuperar tus datos.</strong> Ni nosotros ni Supabase podemos descifrarlos. Anótala en un lugar seguro. Mínimo 10 caracteres.</p></div>
+          <label class="check"><input type="checkbox" id="setup-ack" required><span>Entiendo que no hay recuperación</span></label>
+          <p class="error" id="setup-err" role="alert"></p>
+          <button class="btn btn-primary btn-full" type="submit">Crear bóveda</button>
+          <button class="link" type="button" id="btn-have-cloud" hidden>Ya tengo una bóveda en la nube</button>
+        </form>
 
-      <!-- Traer la bóveda de la nube en un dispositivo nuevo -->
-      <form id="form-cloud" autocomplete="on" hidden>
-        <p class="muted center">Inicia sesión con la cuenta de sincronización para traer tu bóveda cifrada.</p>
-        <div class="field"><label for="cloud-email">Correo</label><input class="input" id="cloud-email" type="email" autocomplete="username" required></div>
-        <div class="field"><label for="cloud-pw">Contraseña de la cuenta</label><input class="input" id="cloud-pw" type="password" autocomplete="current-password" required></div>
-        <p class="error" id="cloud-err" role="alert"></p>
-        <button class="btn btn-primary btn-full" type="submit">Traer mi bóveda</button>
-        <button class="link" type="button" id="btn-cloud-back">Volver</button>
-      </form>
+        <form id="form-cloud" autocomplete="on" hidden>
+          <p class="lock-sub">Inicia sesión con la cuenta de sincronización para traer tu bóveda cifrada.</p>
+          <div class="field"><label for="cloud-email">Correo</label><input class="input" id="cloud-email" type="email" autocomplete="username" required></div>
+          <div class="field"><label for="cloud-pw">Contraseña de la cuenta</label><input class="input" id="cloud-pw" type="password" autocomplete="current-password" required></div>
+          <p class="error" id="cloud-err" role="alert"></p>
+          <button class="btn btn-primary btn-full" type="submit">Traer mi bóveda</button>
+          <button class="link" type="button" id="btn-cloud-back">Volver</button>
+        </form>
 
-      <!-- Desbloquear -->
-      <form id="form-unlock" autocomplete="off" hidden>
-        <div class="field"><label for="unlock-pw">Contraseña maestra</label>
-          <input class="input" id="unlock-pw" type="password" autocomplete="off" required></div>
-        <p class="error" id="unlock-err" role="alert"></p>
-        <button class="btn btn-primary btn-full" type="submit" id="unlock-btn">Desbloquear</button>
-      </form>
+        <form id="form-unlock" autocomplete="off" hidden>
+          <div class="field"><label for="unlock-pw">Contraseña maestra</label>
+            <input class="input" id="unlock-pw" type="password" autocomplete="off" required></div>
+          <p class="error" id="unlock-err" role="alert"></p>
+          <button class="btn btn-primary btn-full" type="submit" id="unlock-btn">Abrir bóveda</button>
+        </form>
+      </div>
     </div>
   </main>
 
   <!-- ===== App ===== -->
   <div id="app" class="app" hidden>
     <aside class="sidebar">
-      <div class="brand"><img src="icons/icon.svg" alt="" width="30" height="30"><span>Bóveda</span></div>
-      <nav id="cat-nav" class="cat-nav" aria-label="Categorías"></nav>
-      <div class="side-actions">
-        <button class="btn btn-secondary btn-full" id="btn-settings" type="button">⚙️ Ajustes</button>
-        <button class="btn btn-secondary btn-full" id="btn-lock" type="button">🔒 Bloquear</button>
+      <div class="brand"><svg class="i brand-mark" aria-hidden="true"><use href="#i-vault"/></svg><span>Bóveda</span></div>
+      <nav id="cat-nav" class="nav" aria-label="Categorías"></nav>
+      <div class="side-foot">
+        <button class="nav-btn" id="btn-gen" type="button"><svg class="i" aria-hidden="true"><use href="#i-dice"/></svg><span>Generador</span></button>
+        <button class="nav-btn" id="btn-theme" type="button" aria-label="Cambiar tema"><svg class="i ico-moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="i ico-sun" aria-hidden="true"><use href="#i-sun"/></svg><span id="theme-label">Tema</span></button>
+        <button class="nav-btn" id="btn-settings" type="button"><svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg><span>Ajustes</span></button>
+        <button class="nav-btn" id="btn-lock" type="button"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span>Bloquear</span></button>
       </div>
     </aside>
 
     <section class="main">
       <header class="topbar">
-        <div class="search"><input class="input" id="search" type="search" placeholder="Buscar sitio, usuario o nota…" aria-label="Buscar" autocomplete="off"></div>
-        <button class="btn btn-primary" id="btn-add" type="button">＋ <span class="hide-sm">Nueva</span></button>
-        <button class="btn btn-secondary show-sm" id="btn-settings-m" type="button" aria-label="Ajustes">⚙️</button>
-        <button class="btn btn-secondary show-sm" id="btn-lock-m" type="button" aria-label="Bloquear">🔒</button>
+        <label class="search"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Buscar cuenta, usuario o nota" aria-label="Buscar" autocomplete="off"><kbd aria-hidden="true">/</kbd></label>
+        <button id="sync-pill" class="sync-pill" type="button"></button>
+        <button class="btn btn-primary btn-new" id="btn-add" type="button"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><span>Nueva</span></button>
       </header>
-      <div id="sync-pill" class="sync-pill" hidden></div>
-      <div id="cat-chips" class="chips show-sm" aria-label="Categorías"></div>
-      <div id="list" class="list"></div>
-      <p id="empty" class="empty" hidden></p>
+      <div id="cat-chips" class="chips" aria-label="Categorías"></div>
+      <div id="list" class="list" role="listbox" aria-label="Cuentas"></div>
+      <div id="empty" class="empty" hidden></div>
     </section>
-  </div>
 
-  <!-- ===== Entrada ===== -->
-  <dialog id="dlg-entry">
+    <aside id="detail" class="detail" aria-label="Detalle de la cuenta">
+      <div class="sheet-grip" data-grip><span class="grip-bar"></span></div>
+      <button class="icon-btn detail-close" id="detail-close" type="button" aria-label="Cerrar detalle"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <div id="detail-body" class="detail-body"></div>
+    </aside>
+
+    <button id="fab" class="fab" type="button" aria-label="Nueva cuenta"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg></button>
+    <nav class="tabbar" aria-label="Principal">
+      <button type="button" id="tab-home" class="tab active"><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><span>Bóveda</span></button>
+      <button type="button" id="tab-gen" class="tab"><svg class="i" aria-hidden="true"><use href="#i-dice"/></svg><span>Generador</span></button>
+      <button type="button" id="tab-settings" class="tab"><svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg><span>Ajustes</span></button>
+      <button type="button" id="tab-lock" class="tab"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span>Bloquear</span></button>
+    </nav>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+
+  <!-- ===== Cuenta (crear / editar) ===== -->
+  <dialog id="dlg-entry" class="sheet-dlg">
+    <div class="sheet-grip" data-grip><span class="grip-bar"></span></div>
     <form id="form-entry" method="dialog" autocomplete="off">
-      <h2 id="entry-title">Nueva contraseña</h2>
-      <div class="grid2">
-        <div class="field"><label for="e-site">Sitio / app</label><input class="input" id="e-site" required maxlength="120"></div>
-        <div class="field"><label for="e-icon">Icono (emoji)</label><input class="input" id="e-icon" maxlength="4" placeholder="🔑"></div>
-      </div>
-      <div class="field"><label for="e-url">Dirección web</label><input class="input" id="e-url" type="text" inputmode="url" placeholder="https://" maxlength="300"></div>
-      <div class="grid2 eq">
-        <div class="field"><label for="e-user">Usuario / correo</label><input class="input" id="e-user" maxlength="200" autocomplete="off"></div>
-        <div class="field"><label for="e-cat">Categoría</label><select class="input" id="e-cat"></select></div>
-      </div>
-      <div class="field"><label for="e-pw">Contraseña</label>
-        <div class="row">
-          <input class="input mono" id="e-pw" type="password" autocomplete="new-password" maxlength="500">
-          <button class="btn btn-secondary" type="button" id="e-toggle" aria-label="Mostrar u ocultar">👁</button>
-          <button class="btn btn-secondary" type="button" id="e-gen-toggle" aria-label="Generador">🎲</button>
+      <div class="dlg-head"><h2 id="entry-title">Nueva cuenta</h2><button class="icon-btn" type="button" data-close aria-label="Cerrar"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+      <div class="dlg-body">
+        <div class="field"><label for="e-site">Sitio o app</label><input class="input" id="e-site" required maxlength="120" placeholder="Ej. Correo, Banco"></div>
+        <div class="field"><label for="e-url">Dirección web</label><input class="input" id="e-url" type="text" inputmode="url" placeholder="https://" maxlength="300"></div>
+        <div class="field"><label for="e-user">Usuario o correo</label><input class="input" id="e-user" maxlength="200" autocomplete="off"></div>
+        <div class="field"><span class="label" id="e-cat-label">Categoría</span>
+          <input type="hidden" id="e-cat"><div id="e-cat-chips" class="chips-form" role="radiogroup" aria-labelledby="e-cat-label"></div></div>
+        <div class="field"><label for="e-pw">Contraseña</label>
+          <div class="row">
+            <input class="input mono grow" id="e-pw" type="password" autocomplete="new-password" maxlength="500">
+            <button class="icon-btn solid" type="button" id="e-toggle" aria-label="Mostrar contraseña"><svg class="i" aria-hidden="true"><use href="#i-eye"/></svg></button>
+            <button class="icon-btn solid" type="button" id="e-gen-toggle" aria-label="Abrir generador" aria-expanded="false" aria-controls="gen-panel"><svg class="i" aria-hidden="true"><use href="#i-dice"/></svg></button>
+          </div>
+          <div class="meter" id="e-meter" data-s="0"><i></i><i></i><i></i><i></i></div><small id="e-meter-label" class="hint"></small>
         </div>
-        <div class="meter"><span id="e-meter"></span></div><small id="e-meter-label" class="muted"></small>
-      </div>
-      <div id="gen-panel" class="gen" hidden>
-        <div class="row"><label for="g-len" class="muted">Longitud: <b id="g-len-val">20</b></label>
-          <input type="range" id="g-len" min="8" max="64" value="20"></div>
-        <div class="row wrap">
-          <label class="check"><input type="checkbox" id="g-lower" checked> a-z</label>
-          <label class="check"><input type="checkbox" id="g-upper" checked> A-Z</label>
-          <label class="check"><input type="checkbox" id="g-digits" checked> 0-9</label>
-          <label class="check"><input type="checkbox" id="g-symbols" checked> !@#</label>
+        <div id="gen-panel" class="gen" hidden>
+          <code id="g-out" class="gen-out mono" aria-live="polite"></code>
+          <div class="gen-ctl">
+            <label class="range-l" for="g-len">Longitud <b id="g-len-val">20</b></label>
+            <input type="range" id="g-len" min="8" max="64" value="20">
+          </div>
+          <div class="toggles">
+            <label class="toggle"><input type="checkbox" id="g-lower" checked><span>Minúsculas</span></label>
+            <label class="toggle"><input type="checkbox" id="g-upper" checked><span>Mayúsculas</span></label>
+            <label class="toggle"><input type="checkbox" id="g-digits" checked><span>Números</span></label>
+            <label class="toggle"><input type="checkbox" id="g-symbols" checked><span>Símbolos</span></label>
+          </div>
+          <div class="row gen-foot">
+            <div class="meter" id="g-meter" data-s="0" hidden><i></i><i></i><i></i><i></i></div><small id="g-meter-label" class="hint grow" hidden></small><span class="grow"></span>
+            <button class="btn btn-ghost" type="button" id="g-regen"><svg class="i" aria-hidden="true"><use href="#i-refresh"/></svg><span>Regenerar</span></button>
+            <button class="btn btn-brass-o" type="button" id="g-use">Usar esta</button>
+          </div>
         </div>
-        <div class="row"><code id="g-out" class="mono gen-out"></code>
-          <button class="btn btn-secondary" type="button" id="g-regen" aria-label="Generar otra">↻</button>
-          <button class="btn btn-primary" type="button" id="g-use">Usar</button></div>
+        <div class="field"><label for="e-notes">Notas</label><textarea class="input" id="e-notes" maxlength="2000" rows="3"></textarea></div>
+        <p class="error" id="entry-err" role="alert"></p>
       </div>
-      <div class="field"><label for="e-notes">Notas</label><textarea class="input" id="e-notes" maxlength="2000"></textarea></div>
-      <p class="error" id="entry-err" role="alert"></p>
       <div class="dlg-foot">
-        <button class="btn btn-danger" type="button" id="e-delete" hidden>Eliminar</button>
-        <span class="grow"></span>
-        <button class="btn btn-secondary" type="button" data-close>Cancelar</button>
+        <button class="btn btn-ghost" type="button" data-close>Cancelar</button>
         <button class="btn btn-primary" type="submit">Guardar</button>
       </div>
     </form>
   </dialog>
 
+  <!-- ===== Generador ===== -->
+  <dialog id="dlg-gen" class="sheet-dlg">
+    <div class="sheet-grip" data-grip><span class="grip-bar"></span></div>
+    <div class="dlg-head"><h2>Generador</h2><button class="icon-btn" type="button" data-close aria-label="Cerrar"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <div class="dlg-body">
+      <code id="s-out" class="gen-out mono big" aria-live="polite"></code>
+      <div class="gen-ctl">
+        <label class="range-l" for="s-len">Longitud <b id="s-len-val">20</b></label>
+        <input type="range" id="s-len" min="8" max="64" value="20">
+      </div>
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="s-lower" checked><span>Minúsculas</span></label>
+        <label class="toggle"><input type="checkbox" id="s-upper" checked><span>Mayúsculas</span></label>
+        <label class="toggle"><input type="checkbox" id="s-digits" checked><span>Números</span></label>
+        <label class="toggle"><input type="checkbox" id="s-symbols" checked><span>Símbolos</span></label>
+      </div>
+      <div class="row"><div class="meter" id="s-meter" data-s="0"><i></i><i></i><i></i><i></i></div><small id="s-meter-label" class="hint grow"></small></div>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn btn-ghost" type="button" id="s-regen"><svg class="i" aria-hidden="true"><use href="#i-refresh"/></svg><span>Regenerar</span></button>
+      <button class="btn btn-primary" type="button" id="s-copy"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg><span>Copiar</span></button>
+    </div>
+  </dialog>
+
   <!-- ===== Ajustes ===== -->
-  <dialog id="dlg-settings">
-    <div class="dlg-head"><h2>Ajustes</h2><button class="btn btn-secondary" type="button" data-close aria-label="Cerrar">✕</button></div>
+  <dialog id="dlg-settings" class="sheet-dlg wide">
+    <div class="sheet-grip" data-grip><span class="grip-bar"></span></div>
+    <div class="dlg-head"><h2>Ajustes</h2><button class="icon-btn" type="button" data-close aria-label="Cerrar"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <div class="dlg-body">
+      <section class="panel">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg>Apariencia</h3>
+        <div class="seg-ctl" id="theme-seg" role="radiogroup" aria-label="Tema">
+          <button type="button" role="radio" data-theme-v="system">Sistema</button>
+          <button type="button" role="radio" data-theme-v="light">Claro</button>
+          <button type="button" role="radio" data-theme-v="dark">Oscuro</button>
+        </div>
+      </section>
 
-    <section class="panel">
-      <h3>☁️ Sincronización</h3>
-      <div id="sync-off" hidden><p class="muted">No está configurada. Completa <code>js/config.js</code> siguiendo <code>docs/SINCRONIZACION.md</code>. Mientras tanto la bóveda vive solo en este dispositivo.</p></div>
-      <div id="sync-out" hidden>
-        <p class="muted">Usa la <b>misma cuenta</b> en el celular y en el PC. Solo se sube la bóveda ya cifrada.</p>
-        <form id="form-account" class="stack" autocomplete="on">
-          <input class="input" id="acc-email" type="email" placeholder="Correo" autocomplete="username" required>
-          <input class="input" id="acc-pw" type="password" placeholder="Contraseña de la cuenta (no es la maestra)" autocomplete="current-password" required minlength="6">
-          <div class="row"><button class="btn btn-primary grow" type="submit" data-act="in">Iniciar sesión</button><button class="btn btn-secondary grow" type="button" id="acc-signup">Crear cuenta</button></div>
+      <section class="panel">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg>Sincronización</h3>
+        <div id="sync-off" hidden><p class="muted">No está configurada. Completa <code>js/config.js</code> siguiendo <code>docs/SINCRONIZACION.md</code>. Mientras tanto la bóveda vive solo en este dispositivo.</p></div>
+        <div id="sync-out" hidden>
+          <p class="muted">Usa la misma cuenta en el celular y en el PC. Solo se sube la bóveda ya cifrada.</p>
+          <form id="form-account" class="stack" autocomplete="on">
+            <input class="input" id="acc-email" type="email" placeholder="Correo" aria-label="Correo" autocomplete="username" required>
+            <input class="input" id="acc-pw" type="password" placeholder="Contraseña de la cuenta (no es la maestra)" aria-label="Contraseña de la cuenta" autocomplete="current-password" required minlength="6">
+            <div class="row"><button class="btn btn-primary grow" type="submit" data-act="in">Iniciar sesión</button><button class="btn btn-ghost grow" type="button" id="acc-signup">Crear cuenta</button></div>
+          </form>
+        </div>
+        <div id="sync-in" hidden>
+          <p>Sesión: <b id="acc-user"></b></p>
+          <p class="muted" id="acc-status"></p>
+          <div class="row"><button class="btn btn-primary grow" type="button" id="acc-sync">Sincronizar ahora</button><button class="btn btn-ghost grow" type="button" id="acc-signout">Cerrar sesión</button></div>
+        </div>
+        <p class="error" id="acc-err" role="alert"></p>
+      </section>
+
+      <section class="panel">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg>Categorías</h3>
+        <div id="cat-list" class="stack"></div>
+        <form id="form-cat" class="row">
+          <input class="input grow" id="cat-name" maxlength="40" placeholder="Nueva categoría" aria-label="Nombre de la categoría" required>
+          <button class="btn btn-ghost" type="submit">Agregar</button>
         </form>
-      </div>
-      <div id="sync-in" hidden>
-        <p>Sesión: <b id="acc-user"></b></p>
-        <p class="muted" id="acc-status"></p>
-        <div class="row"><button class="btn btn-primary grow" type="button" id="acc-sync">Sincronizar ahora</button><button class="btn btn-secondary grow" type="button" id="acc-signout">Cerrar sesión</button></div>
-      </div>
-      <p class="error" id="acc-err" role="alert"></p>
-    </section>
+      </section>
 
-    <section class="panel">
-      <h3>🗂 Categorías</h3>
-      <div id="cat-list" class="stack"></div>
-      <form id="form-cat" class="row">
-        <input class="input" id="cat-icon" maxlength="4" placeholder="📁" aria-label="Icono de la categoría">
-        <input class="input grow" id="cat-name" maxlength="40" placeholder="Nueva categoría" aria-label="Nombre de la categoría" required>
-        <button class="btn btn-secondary" type="submit">Agregar</button>
-      </form>
-    </section>
+      <section class="panel">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg>Seguridad</h3>
+        <label class="muted" for="set-autolock">Bloqueo automático por inactividad</label>
+        <select class="input" id="set-autolock">
+          <option value="1">1 minuto</option><option value="5">5 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option>
+        </select>
+        <button class="btn btn-ghost btn-full" type="button" id="btn-change-master">Cambiar contraseña maestra</button>
+        <form id="form-master" class="stack" hidden autocomplete="off">
+          <input class="input" id="m-old" type="password" placeholder="Contraseña maestra actual" aria-label="Contraseña maestra actual" autocomplete="off" required>
+          <input class="input" id="m-new" type="password" placeholder="Nueva contraseña (mín. 10)" aria-label="Nueva contraseña" autocomplete="new-password" minlength="10" required>
+          <div class="meter" id="m-meter" data-s="0"><i></i><i></i><i></i><i></i></div>
+          <input class="input" id="m-new2" type="password" placeholder="Repite la nueva contraseña" aria-label="Repite la nueva contraseña" autocomplete="new-password" required>
+          <p class="error" id="m-err" role="alert"></p>
+          <button class="btn btn-primary" type="submit">Recifrar con nueva contraseña</button>
+        </form>
+      </section>
 
-    <section class="panel">
-      <h3>🔐 Seguridad</h3>
-      <label class="muted" for="set-autolock">Bloqueo automático por inactividad</label>
-      <select class="input" id="set-autolock">
-        <option value="1">1 minuto</option><option value="5">5 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option>
-      </select>
-      <button class="btn btn-secondary btn-full" type="button" id="btn-change-master">Cambiar contraseña maestra</button>
-      <form id="form-master" class="stack" hidden autocomplete="off">
-        <input class="input" id="m-old" type="password" placeholder="Contraseña maestra actual" autocomplete="off" required>
-        <input class="input" id="m-new" type="password" placeholder="Nueva contraseña (mín. 10)" autocomplete="new-password" minlength="10" required>
-        <div class="meter"><span id="m-meter"></span></div>
-        <input class="input" id="m-new2" type="password" placeholder="Repite la nueva contraseña" autocomplete="new-password" required>
-        <p class="error" id="m-err" role="alert"></p>
-        <button class="btn btn-primary" type="submit">Recifrar con nueva contraseña</button>
-      </form>
-    </section>
-
-    <section class="panel">
-      <h3>💾 Respaldo</h3>
-      <p class="muted">El respaldo exportado va cifrado: solo se abre con tu contraseña maestra.</p>
-      <div class="row wrap">
-        <button class="btn btn-secondary grow" type="button" id="btn-export">Exportar respaldo cifrado</button>
-        <button class="btn btn-secondary grow" type="button" id="btn-import">Importar respaldo cifrado</button>
-        <button class="btn btn-secondary grow" type="button" id="btn-import-old">Importar de la versión vieja (JSON)</button>
-      </div>
-      <input type="file" id="file-import" accept=".json,application/json" hidden>
-      <p class="muted" id="import-msg" role="status"></p>
-    </section>
+      <section class="panel">
+        <h3><svg class="i" aria-hidden="true"><use href="#i-download"/></svg>Respaldo</h3>
+        <p class="muted">El respaldo exportado va cifrado: solo se abre con tu contraseña maestra.</p>
+        <div class="row wrap">
+          <button class="btn btn-ghost grow" type="button" id="btn-export"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span>Exportar respaldo</span></button>
+          <button class="btn btn-ghost grow" type="button" id="btn-import"><svg class="i" aria-hidden="true"><use href="#i-upload"/></svg><span>Importar respaldo</span></button>
+          <button class="btn btn-ghost grow" type="button" id="btn-import-old"><svg class="i" aria-hidden="true"><use href="#i-upload"/></svg><span>Importar formato viejo</span></button>
+        </div>
+        <input type="file" id="file-import" accept=".json,application/json" hidden>
+        <p class="muted" id="import-msg" role="status"></p>
+      </section>
+    </div>
   </dialog>
 
   <!-- ===== Pedir contraseña maestra (bloque con otra clave) ===== -->
-  <dialog id="dlg-ask">
+  <dialog id="dlg-ask" class="sheet-dlg">
     <form id="form-ask" method="dialog" autocomplete="off">
-      <h2>Contraseña maestra</h2>
-      <p class="muted" id="ask-msg"></p>
-      <input class="input" id="ask-pw" type="password" autocomplete="off" required>
-      <div class="dlg-foot"><span class="grow"></span>
-        <button class="btn btn-secondary" type="button" id="ask-cancel">Cancelar</button>
+      <div class="dlg-head"><h2>Contraseña maestra</h2></div>
+      <div class="dlg-body">
+        <p class="muted" id="ask-msg"></p>
+        <input class="input" id="ask-pw" type="password" aria-label="Contraseña maestra" autocomplete="off" required>
+      </div>
+      <div class="dlg-foot">
+        <button class="btn btn-ghost" type="button" id="ask-cancel">Cancelar</button>
         <button class="btn btn-primary" type="submit">Continuar</button></div>
     </form>
   </dialog>

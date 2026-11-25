@@ -1,7 +1,7 @@
 // Service worker: guarda SOLO archivos estáticos de la app para que abra sin internet.
 // Nunca guarda respuestas de Supabase ni de ningún otro dominio.
 // Cambia CACHE_VERSION cada vez que publiques cambios para forzar la actualización.
-const CACHE_VERSION = 'boveda-v3';
+const CACHE_VERSION = 'boveda-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -12,11 +12,21 @@ const ASSETS = [
   './js/gen.js',
   './js/sync.js',
   './js/config.js',
+  './js/theme.js',
+  './js/ui/util.js',
+  './js/ui/dial.js',
   './js/vendor/supabase.js',
   './manifest.webmanifest',
   './icons/icon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './fonts/bricolage-grotesque-latin-600-normal.woff2',
+  './fonts/bricolage-grotesque-latin-700-normal.woff2',
+  './fonts/manrope-latin-400-normal.woff2',
+  './fonts/manrope-latin-500-normal.woff2',
+  './fonts/manrope-latin-600-normal.woff2',
+  './fonts/jetbrains-mono-latin-400-normal.woff2',
+  './fonts/jetbrains-mono-latin-600-normal.woff2',
 ];
 
 self.addEventListener('install', (event) => {
