@@ -30,6 +30,7 @@ function friendly(error) {
   if (/rate limit|too many/i.test(m)) return 'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
   if (/failed to fetch|network|load failed/i.test(m)) return 'Sin conexión con el servidor.';
   if (/relation .* does not exist|could not find the table/i.test(m)) return 'Falta crear la tabla: ejecuta supabase/schema.sql en Supabase.';
+  if (/permission denied for table/i.test(m)) return 'Faltan permisos en la tabla: vuelve a ejecutar supabase/schema.sql en Supabase (SQL Editor).';
   return m || 'Error desconocido.';
 }
 

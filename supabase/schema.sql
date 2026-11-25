@@ -28,6 +28,11 @@ create trigger boveda_data_updated_at
 -- Seguridad (RLS): cada usuario solo puede leer y modificar SU propia fila.
 alter table public.boveda_data enable row level security;
 
+-- Permisos: los proyectos nuevos de Supabase no los dan automáticamente.
+-- Solo usuarios con sesión (las políticas RLS limitan a su propia fila); nada para anónimos.
+revoke all on public.boveda_data from anon;
+grant select, insert, update, delete on public.boveda_data to authenticated;
+
 drop policy if exists "Ver mi boveda"        on public.boveda_data;
 drop policy if exists "Crear mi boveda"      on public.boveda_data;
 drop policy if exists "Actualizar mi boveda" on public.boveda_data;
