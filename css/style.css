@@ -373,3 +373,7 @@ dialog.sheet-dlg::backdrop { background: var(--scrim); }
   .lock.opening { opacity: 0; transition-duration: .3s !important; }
   .lock.opening .door { transform: none !important; }
 }
+
+/* Respaldo: botones que pasan a otra línea cuando no caben (en móvil, uno por línea) */
+.backup-actions .btn { flex: 1 1 190px; min-width: 0; }
+@media (max-width: 520px) { .backup-actions .btn { flex-basis: 100%; justify-content: flex-start; } }
